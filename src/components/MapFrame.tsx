@@ -2,6 +2,7 @@
 
 import { tagData } from '@/constants'
 import { MatterportSDK } from '@/types/sdk'
+import { addModelAtSweep } from '@/utils/addModelAtSweep'
 import { useEffect, useRef, useState } from 'react'
 
 declare global {
@@ -36,20 +37,10 @@ const MapFrame = () => {
 				)
 
 				const tag = await mpSdk.Mattertag.add([tagData])
-
 				setOfficeTag(tag[0])
-
 				await mpSdk.Mattertag.editColor(tag[0], { r: 0, g: 122, b: 0 }, true)
 
-				await mpSdk.Mattertag.editColor(
-					tag[0],
-					{
-						r: 0,
-						g: 122,
-						b: 0,
-					},
-					true
-				)
+				addModelAtSweep(mpSdk)
 
 				console.log('SDK Connected successfully!', mpSdk)
 			} catch (error) {
