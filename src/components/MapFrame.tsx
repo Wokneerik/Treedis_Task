@@ -1,7 +1,8 @@
 'use client'
 
+import { tagData } from '@/constants'
 import { MatterportSDK } from '@/types/sdk'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 declare global {
 	interface Window {
@@ -13,6 +14,7 @@ const MapFrame = () => {
 	const SDK_KEY = process.env.NEXT_PUBLIC_MATTERPORT_SDK_KEY ?? ''
 
 	const showcaseRef = useRef<HTMLIFrameElement | null>(null)
+	const [officeTag, setOfficeTag] = useState<string | null>(null)
 
 	useEffect(() => {
 		const iframe = showcaseRef.current
@@ -31,6 +33,22 @@ const MapFrame = () => {
 					iframe,
 					SDK_KEY,
 					'25.2.2'
+				)
+
+				const tag = await mpSdk.Mattertag.add([tagData])
+
+				setOfficeTag(tag[0])
+
+				await mpSdk.Mattertag.editColor(tag[0], { r: 0, g: 122, b: 0 }, true)
+
+				await mpSdk.Mattertag.editColor(
+					tag[0],
+					{
+						r: 0,
+						g: 122,
+						b: 0,
+					},
+					true
 				)
 
 				console.log('SDK Connected successfully!', mpSdk)
