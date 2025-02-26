@@ -60,7 +60,7 @@ const MapFrame = () => {
 			<iframe
 				ref={showcaseRef}
 				id='showcase'
-				src={`/bundle/showcase.html?m=m72PGKzeknR&applicationKey=${SDK_KEY}&play=1`}
+				src={`/bundle/showcase.html?m=m72PGKzeknR&applicationKey=${SDK_KEY}`}
 				width='100%'
 				height='100%'
 				allowFullScreen
