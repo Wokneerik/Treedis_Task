@@ -5,9 +5,10 @@ import { useState } from 'react'
 
 interface NavigationMenuProps {
 	onTeleport: () => void
+	onNavigate: () => void
 }
 
-const Menu = ({ onTeleport }: NavigationMenuProps) => {
+const Menu = ({ onTeleport, onNavigate }: NavigationMenuProps) => {
 	const [searchQuery, setSearchQuery] = useState('')
 
 	return (
@@ -44,7 +45,10 @@ const Menu = ({ onTeleport }: NavigationMenuProps) => {
 				</div>
 
 				<div>
-					<button className='w-full px-3 py-2 rounded-md bg-gray-700 hover:bg-gray-600 transition-all duration-200 text-sm'>
+					<button
+						onClick={onNavigate}
+						className='w-full px-3 py-2 rounded-md bg-gray-700 hover:bg-gray-600 transition-all duration-200 text-sm'
+					>
 						Navigate to Office
 					</button>
 				</div>

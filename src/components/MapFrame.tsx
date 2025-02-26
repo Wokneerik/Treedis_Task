@@ -1,8 +1,9 @@
 'use client'
 
-import { tagData } from '@/constants'
+import { tagData, tagPosition } from '@/constants'
 import { MatterportSDK } from '@/types/sdk'
 import { addModelAtSweep } from '@/utils/addModelAtSweep'
+import { handleNavigate } from '@/utils/handleNavigate'
 import { handleTeleport } from '@/utils/handleTeleport'
 import { useEffect, useRef, useState } from 'react'
 import Menu from './Menu'
@@ -13,9 +14,9 @@ declare global {
 	}
 }
 
-const MapFrame = () => {
-	const SDK_KEY = process.env.NEXT_PUBLIC_MATTERPORT_SDK_KEY ?? ''
+const SDK_KEY = process.env.NEXT_PUBLIC_MATTERPORT_SDK_KEY ?? ''
 
+const MapFrame = () => {
 	const showcaseRef = useRef<HTMLIFrameElement | null>(null)
 	const [officeTag, setOfficeTag] = useState<string | null>(null)
 	const [mpSdkInstance, setMpSdkInstance] = useState<MatterportSDK | null>(null)
@@ -65,12 +66,15 @@ const MapFrame = () => {
 			<iframe
 				ref={showcaseRef}
 				id='showcase'
-				src={`/bundle/showcase.html?m=m72PGKzeknR&applicationKey=${SDK_KEY}&play=1`}
+				src={`/bundle/showcase.html?m=m72PGKzeknR&applicationKey=${SDK_KEY}`}
 				width='100%'
 				height='100%'
 				allowFullScreen
 			/>
-			<Menu onTeleport={() => handleTeleport(mpSdkInstance, officeTag)} />
+			<Menu
+				onTeleport={() => handleTeleport(mpSdkInstance, officeTag)}
+				onNavigate={() => handleNavigate(mpSdkInstance, tagPosition)}
+			/>
 		</main>
 	)
 }
