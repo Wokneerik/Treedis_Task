@@ -27,13 +27,13 @@ export const handleNavigate = async (
 		const sweepsData: Record<string, any> = {}
 
 		await mpSdkInstance.Sweep.data.subscribe({
-			onAdded: (index, item) => {
+			onAdded: (index: string, item: any) => {
 				sweepsData[index] = item
 			},
-			onUpdated: (index, item) => {
+			onUpdated: (index: string, item: any) => {
 				sweepsData[index] = item
 			},
-			onRemoved: index => {
+			onRemoved: (index: string) => {
 				delete sweepsData[index]
 			},
 		})
@@ -73,22 +73,38 @@ export const handleNavigate = async (
 		)
 
 		const pathResult = aStarRunner.exec()
-		const path = pathResult.path.map(vertex => vertex.data.sid)
+		const path: string[] = pathResult.path.map(
+			(vertex: { data: { sid: string } }) => vertex.data.sid
+		)
 
 		console.log('Path vertices:', path)
 
 		const moveToNextPoint = async (currentIndex: number) => {
-			if (currentIndex >= path.length) return
+			if (currentIndex >= path.length - 1) return
 
-			const nextSweepId = path[currentIndex]
-			if (!nextSweepId) return
+			const currentSweepId = path[currentIndex]
+			const nextSweepId = path[currentIndex + 1]
+			if (!currentSweepId || !nextSweepId) return
 
 			console.log(`Moving to sweep: ${nextSweepId}`)
+
+			const currentPosition = sweepsData[currentSweepId].position
+			const nextPosition = sweepsData[nextSweepId].position
+
+			const dx = currentPosition.x - nextPosition.x
+			const dz = currentPosition.z - nextPosition.z
+			const yaw = Math.atan2(dx, dz)
+
+			const rotation = {
+				x: 0,
+				y: (yaw * 180) / Math.PI,
+			}
 
 			try {
 				await mpSdkInstance.Sweep.moveTo(nextSweepId, {
 					transition: mpSdkInstance.Sweep.Transition.FLY,
 					transitionTime: 1000,
+					rotation: rotation,
 				})
 
 				await new Promise(resolve => setTimeout(resolve, 1200))

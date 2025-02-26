@@ -40,8 +40,6 @@ const MapFrame = () => {
 					'25.2.2'
 				)
 
-				setMpSdkInstance(mpSdk)
-
 				const tag = await mpSdk.Mattertag.add([tagData])
 				setOfficeTag(tag[0])
 				await mpSdk.Mattertag.editColor(tag[0], { r: 0, g: 122, b: 0 }, true)
@@ -49,6 +47,8 @@ const MapFrame = () => {
 				addModelAtSweep(mpSdk)
 
 				console.log('SDK Connected successfully!', mpSdk)
+
+				setMpSdkInstance(mpSdk)
 			} catch (error) {
 				console.error('Failed to connect to Matterport SDK:', error)
 			}
@@ -66,7 +66,7 @@ const MapFrame = () => {
 			<iframe
 				ref={showcaseRef}
 				id='showcase'
-				src={`/bundle/showcase.html?m=m72PGKzeknR&applicationKey=${SDK_KEY}`}
+				src={`/bundle/showcase.html?m=m72PGKzeknR&applicationKey=${SDK_KEY}&play=1`}
 				width='100%'
 				height='100%'
 				allowFullScreen
