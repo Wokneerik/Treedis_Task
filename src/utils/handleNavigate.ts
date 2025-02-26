@@ -1,3 +1,5 @@
+import { addSphereInPath } from './addSphereInPath'
+
 export const handleNavigate = async (
 	mpSdkInstance: any,
 	tagPosition: { x: number; y: number; z: number }
@@ -78,6 +80,8 @@ export const handleNavigate = async (
 		)
 
 		console.log('Path vertices:', path)
+
+		addSphereInPath(mpSdkInstance, path, sweepsData)
 
 		const moveToNextPoint = async (currentIndex: number) => {
 			if (currentIndex >= path.length - 1) return
