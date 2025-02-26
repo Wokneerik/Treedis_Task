@@ -3,7 +3,11 @@
 import { Search, X } from 'lucide-react'
 import { useState } from 'react'
 
-const Menu = () => {
+interface NavigationMenuProps {
+	onTeleport: () => void
+}
+
+const Menu = ({ onTeleport }: NavigationMenuProps) => {
 	const [searchQuery, setSearchQuery] = useState('')
 
 	return (
@@ -31,7 +35,10 @@ const Menu = () => {
 
 				{/* Buttons */}
 				<div>
-					<button className='w-full px-3 py-2 rounded-md bg-gray-700 hover:bg-gray-600 transition-all duration-200 mb-1 text-sm'>
+					<button
+						onClick={onTeleport}
+						className='w-full px-3 py-2 rounded-md bg-gray-700 hover:bg-gray-600 transition-all duration-200 mb-1 text-sm'
+					>
 						Teleport to Office
 					</button>
 				</div>

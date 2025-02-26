@@ -3,7 +3,9 @@
 import { tagData } from '@/constants'
 import { MatterportSDK } from '@/types/sdk'
 import { addModelAtSweep } from '@/utils/addModelAtSweep'
+import { handleTeleport } from '@/utils/handleTeleport'
 import { useEffect, useRef, useState } from 'react'
+import Menu from './Menu'
 
 declare global {
 	interface Window {
@@ -16,6 +18,7 @@ const MapFrame = () => {
 
 	const showcaseRef = useRef<HTMLIFrameElement | null>(null)
 	const [officeTag, setOfficeTag] = useState<string | null>(null)
+	const [mpSdkInstance, setMpSdkInstance] = useState<MatterportSDK | null>(null)
 
 	useEffect(() => {
 		const iframe = showcaseRef.current
@@ -35,6 +38,8 @@ const MapFrame = () => {
 					SDK_KEY,
 					'25.2.2'
 				)
+
+				setMpSdkInstance(mpSdk)
 
 				const tag = await mpSdk.Mattertag.add([tagData])
 				setOfficeTag(tag[0])
@@ -60,11 +65,12 @@ const MapFrame = () => {
 			<iframe
 				ref={showcaseRef}
 				id='showcase'
-				src={`/bundle/showcase.html?m=m72PGKzeknR&applicationKey=${SDK_KEY}`}
+				src={`/bundle/showcase.html?m=m72PGKzeknR&applicationKey=${SDK_KEY}&play=1`}
 				width='100%'
 				height='100%'
 				allowFullScreen
 			/>
+			<Menu onTeleport={() => handleTeleport(mpSdkInstance, officeTag)} />
 		</main>
 	)
 }
