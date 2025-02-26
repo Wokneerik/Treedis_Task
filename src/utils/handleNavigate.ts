@@ -64,10 +64,6 @@ export const handleNavigate = async (
 			return
 		}
 
-		console.log(
-			`Navigating from ${startSweepId} to sweeps: ${pathVertices.join(', ')}`
-		)
-
 		const aStarRunner = await mpSdkInstance.Graph.createAStarRunner(
 			sweepGraph,
 			startSweep,
@@ -79,8 +75,6 @@ export const handleNavigate = async (
 			(vertex: { data: { sid: string } }) => vertex.data.sid
 		)
 
-		console.log('Path vertices:', path)
-
 		addSphereInPath(mpSdkInstance, path, sweepsData)
 
 		const moveToNextPoint = async (currentIndex: number) => {
@@ -89,8 +83,6 @@ export const handleNavigate = async (
 			const currentSweepId = path[currentIndex]
 			const nextSweepId = path[currentIndex + 1]
 			if (!currentSweepId || !nextSweepId) return
-
-			console.log(`Moving to sweep: ${nextSweepId}`)
 
 			const currentPosition = sweepsData[currentSweepId].position
 			const nextPosition = sweepsData[nextSweepId].position

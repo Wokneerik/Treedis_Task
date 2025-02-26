@@ -27,8 +27,6 @@ const MapFrame = () => {
 
 		const handleIframeLoad = async () => {
 			try {
-				console.log('Iframe loaded, trying to connect SDK')
-
 				if (!iframe.contentWindow) {
 					console.error('iframe.contentWindow is null')
 					return
@@ -45,8 +43,6 @@ const MapFrame = () => {
 				await mpSdk.Mattertag.editColor(tag[0], { r: 0, g: 122, b: 0 }, true)
 
 				addModelAtSweep(mpSdk)
-
-				console.log('SDK Connected successfully!', mpSdk)
 
 				setMpSdkInstance(mpSdk)
 			} catch (error) {
