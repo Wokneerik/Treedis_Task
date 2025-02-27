@@ -52,6 +52,13 @@ const MapFrame = () => {
 
 		iframe.addEventListener('load', handleIframeLoad)
 
+		const script = document.createElement('script')
+		script.src =
+			'https://static.matterport.com/showcase-sdk/2.0.1-0-g64e7e88/sdk.js'
+		script.async = true
+		script.onload = handleIframeLoad
+		document.body.appendChild(script)
+
 		return () => {
 			iframe.removeEventListener('load', handleIframeLoad)
 		}
